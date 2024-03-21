@@ -11,5 +11,5 @@ df = pd.read_csv('budget_data.csv')
 
 # Count number of months
 number_of_months = len(df)
-print("Total months: ", number_of_months)
+print("Total_months: ", number_of_months)
 
