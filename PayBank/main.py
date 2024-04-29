@@ -12,7 +12,7 @@ with open(budget_data_csv) as csv_file:
 
     # Read through each row of data after the header
     for row in csv_reader:
-
+        
 # Define variables      
 dates = []
 totalmonths = 0 
