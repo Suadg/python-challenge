@@ -1,5 +1,5 @@
 # python-challenge
-
+## PyBank Instructions
 In this Challenge, you are tasked with creating a Python script to analyze the financial records of your company. You will be given a financial dataset called budget_data.csv. The dataset is composed of two columns: "Date" and "Profit/Losses".
 
 Your task is to create a Python script that analyzes the records to calculate each of the following values:
@@ -26,62 +26,47 @@ You will be given a set of poll data called election_data.csv. The dataset is co
 5. The winner of the election based on popular vote
 
 
-Requirements
-Correctly Reads in the CSV 
+## Requirements
+### Correctly Reads in the CSV 
 
 Reads in the CSVs for both PyBank and PyPoll using Python 
 
 Successfully stores the header row 
 
-Results Printed out to correctly to terminal 
+### Results Printed out to correctly to terminal 
+
 Results correctly display for PyBank:
+- Total Months 
+- Total 
+- Average Change 
+- Greatest Increase 
+- Greatest Decrease 
 
-Total Months 
+Results correctly display for PyPoll:
+-Total Votes 
+- Each candidate’s total votes and percent of votes 
+- Winner 
 
-Total 
+### Exports results to text file 
 
-Average Change 
+### The text file contains for PyBank:
 
-Greatest Increase 
+1. Total Months 
 
-Greatest Decrease 
+2. Total 
 
-## Results correctly display for PyPoll:
+3. Average Change 
 
-Total Votes 
+4. Greatest Increase 
 
-Each candidate’s total votes and percent of votes 
+5. Greatest Decrease 
 
-Winner 
+### The text file contains for Pypoll:
 
-Code Runs Error Free 
-Error Free 
+2. Total Votes
 
-Producing consistent results 
+3. Each candidate’s total votes and percent of votes (2.5 points)
 
-Exports results to text file 
-The text file contains for PyBank:
+4. Winner 
 
-Total Months 
-
-Total 
-
-Average Change 
-
-Greatest Increase 
-
-Greatest Decrease 
-
-The text file contains for Pypoll:
-
-Total Votes
-
-Each candidate’s total votes and percent of votes (2.5 points)
-
-Winner 
-
-Code is cleaned and commented 
-Has additional tests and debugging removed 
-
-Commented 
-
+15. Code is cleaned and commented 
