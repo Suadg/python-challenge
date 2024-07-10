@@ -19,22 +19,31 @@ with open(election_data) as csvfile:
     
 # Loop through each row in the CSV file
     for row in csvreader:
-# Add to the total vote count
-        total_votes += 1
+        try:
+            # Check if the row has at least 3 columns (index 2 exists)
+            if len(row) >= 3:
+                # Add to the total vote count
+                total_votes += 1
 
-# Get the candidate name from each row (assuming candidate name is in the third column, index 2)
-        candidate_name = row[2]
+                # Get the candidate name from each row (assuming candidate name is in the third column, index 2)
+                candidate_name = row[2]
 
-    # If the candidate does not match any existing candidate...
-        if candidate_name not in candidate_options:
-        # Add to the list of candidates
-            candidate_options.append(candidate_name)
+                # If the candidate does not match any existing candidate...
+                if candidate_name not in candidate_options:
+                    # Add to the list of candidates
+                    candidate_options.append(candidate_name)
 
-    # Initialize candidate's vote count
-        total_votes_candidates[candidate_name] = 0
+                    # Initialize candidate's vote count
+                    total_votes_candidates[candidate_name] = 0
 
-        # Add a vote to that candidate's count
-        total_votes_candidates[candidate_name] += 1
+                # Add a vote to that candidate's count
+                total_votes_candidates[candidate_name] += 1
+            else:
+                print(f"Issue with row: {row}")  # Print a message for rows with less than 3 columns
+
+        except IndexError:
+            print(f"IndexError: {row}")  # Print the row causing the IndexError
+            continue  # Skip this row and move to the next one
 
 # Open the output file and write the results
 with open(results_txt, "w") as txt_file:
@@ -90,3 +99,4 @@ with open(results_txt, "w") as txt_file:
 
     # Save the winning candidate's results to the text file.
     txt_file.write(winning_candidate_summary)
+
