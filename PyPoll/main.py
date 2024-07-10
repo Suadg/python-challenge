@@ -3,8 +3,7 @@ import os
 import csv
 
 # Set the path for the file
-csvpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Resources', 'elections_data.csv')
-
+election_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Resources', 'election_data.csv')
 # Set the output of the text file
 results_txt = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'analysis', 'Final_Analysis.txt')
 
@@ -14,40 +13,37 @@ candidate_options = []
 total_votes_candidates = {}
 
 # Open and read csv
-with open(csvpath) as csvfile:
+with open(election_data) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
     csvheader = next(csvreader)  # Skip header row
-
-    # Loop through each row in the CSV file
+    
+# Loop through each row in the CSV file
     for row in csvreader:
-        # Add to the total vote count
+# Add to the total vote count
         total_votes += 1
 
-        # Get the candidate name from each row (assuming candidate name is in the third column, index 2)
+# Get the candidate name from each row (assuming candidate name is in the third column, index 2)
         candidate_name = row[2]
 
-        # If the candidate does not match any existing candidate...
+    # If the candidate does not match any existing candidate...
         if candidate_name not in candidate_options:
-            # Add to the list of candidates
+        # Add to the list of candidates
             candidate_options.append(candidate_name)
 
-            # Initialize candidate's vote count
-            total_votes_candidates[candidate_name] = 0
+    # Initialize candidate's vote count
+        total_votes_candidates[candidate_name] = 0
 
         # Add a vote to that candidate's count
         total_votes_candidates[candidate_name] += 1
 
-# Set variable for output file
-output_file = os.path.join(output_folder, "election_analysis.txt")
-
 # Open the output file and write the results
-with open(output_file, "w") as txt_file:
-    # Print the final vote count to the terminal.
+with open(results_txt, "w") as txt_file:
+# Print the final vote count to the terminal.
     election_results = (
-        f"Election Results\n"
-        f"-------------------------\n"
-        f"Total Votes: {total_votes:,}\n"
-        f"-------------------------\n"
+    f"Election Results\n"
+    f"-------------------------\n"
+    f"Total Votes: {total_votes:,}\n"
+    f"-------------------------\n"
     )
     print(election_results, end="")
     
