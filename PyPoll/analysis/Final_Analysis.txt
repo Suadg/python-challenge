@@ -1,9 +1,0 @@
-Election Results
--------------------------
-Total Votes: 0
--------------------------
--------------------------
-Winner: 
-Winning Vote Count: 0
-Winning Percentage: 0.000%
--------------------------
