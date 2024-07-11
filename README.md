@@ -47,26 +47,4 @@ Results correctly display for PyPoll:
 - Each candidate’s total votes and percent of votes 
 - Winner 
 
-### Exports results to text file 
-
-### The text file contains for PyBank:
-
-1. Total Months 
-
-2. Total 
-
-3. Average Change 
-
-4. Greatest Increase 
-
-5. Greatest Decrease 
-
-### The text file contains for Pypoll:
-
-2. Total Votes
-
-3. Each candidate’s total votes and percent of votes (2.5 points)
-
-4. Winner 
-
-15. Code is cleaned and commented 
+# **I used pandas library to solve for PyPoll data
