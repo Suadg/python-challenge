@@ -1,16 +1,28 @@
 import pandas as pd 
 
+# Filepath to the CSV file
 filepath= "./PyPoll/Resources/election_data.csv"
-df = pd.read_csv(filepath,sep = ",")
 
+# Read the CSV file into a DataFrame
+df = pd.read_csv(filepath, sep=",")
+
+# Calculate total votes
 total_votes = df['Ballot ID'].count()
+
+# Get unique candidates
 candidates = df['Candidate'].unique()
 
-number_of_votes_per_candidate=df.groupby('Candidate').agg({'Ballot ID' : 'count'})
-percentage_per_candidate = (number_of_votes_per_candidate['Ballot ID'] / total_votes) * 100
-percentage_per_candidate = percentage_per_candidate.sort_values(ascending=False)
-winner = percentage_per_candidate.index[0]
+# Calculate the number of votes per candidate
+number_of_votes_per_candidate = df.groupby('Candidate').agg({'Ballot ID' : 'count'})
 
+# Calculate the percentage of votes per candidate
+percentage_per_candidate = (number_of_votes_per_candidate['Ballot ID'] / total_votes) * 100
+
+# Sort the percentages in descending order
+percentage_per_candidate = percentage_per_candidate.sort_values(ascending=False)
+
+# Get the winner
+winner = percentage_per_candidate.index[0]
 
 # Create a new DataFrame with the results
 results_df = pd.DataFrame({
@@ -19,22 +31,21 @@ results_df = pd.DataFrame({
     'Total Votes': number_of_votes_per_candidate['Ballot ID'].values
 })
 
-# Sort the results by percentage of votes in descending order
-results_df = results_df.sort_values('Candidate', ascending=True)
-
 # Add a column with the formatted percentage of votes
 results_df['Percentage of Votes'] = results_df['Percentage of Votes'].map('{:.3f}%'.format)
 
-# Add a header with the total number of votes
-header = f'''
+# Create the election results as a string
+results_str = f'''
 Election Results
 -------------------------
 Total Votes: {total_votes}
 -------------------------
 '''
 
-# Add a footer with the winner
-footer = f'''
+for index, row in results_df.iterrows():
+    results_str += f"{row['Candidate']}: {row['Percentage of Votes']} ({row['Total Votes']})\n"
+
+results_str += f'''
 -------------------------
 Winner: {winner}
 -------------------------
@@ -42,6 +53,4 @@ Winner: {winner}
 
 # Write the results to a CSV file
 with open('./PyPoll/analysis/election_results.csv', 'w') as f:
-    f.write(header)
-    results_df.to_csv(f, index=False)
-    f.write(footer)
+    f.write(results_str)
