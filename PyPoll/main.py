@@ -1,56 +1,52 @@
-import pandas as pd 
+import os
+import csv
 
-# Filepath to the CSV file
-filepath= "./PyPoll/Resources/election_data.csv"
+# Path to collect data from the Resources folder
+file_path = os.path.join('Resources', 'election_data.csv')
+output = 'Election Results'
 
-# Read the CSV file into a DataFrame
-df = pd.read_csv(filepath, sep=",")
+with open(file_path, newline="") as csvfile:
+    csvreader = csv.reader(file_path, delimiter=",")
+    csv_header = next(csvreader)
+    # Conduct the ask
+    for row in csvreader:
+        # Count the total number of votes
+        count = count + 1
+        # Set the candidate names to candidatelist
+        candidatelist.append(row[2])
+        # Create a set from the candidatelist to get the unique candidate names
+    for x in set(candidatelist):
+        unique_candidate.append(x)
+        # y is the total number of votes per candidate
+        y = candidatelist.count(x)
+        vote_count.append(y)
+        # z is the percent of total votes per candidate
+        z = (y/count)*100
+        vote_percent.append(z)
+        
+    winning_vote_count = max(vote_count)
+    winner = unique_candidate[vote_count.index(winning_vote_count)]
+    
+# Print to terminal
+print("-------------------------")
+print("Election Results")   
+print("-------------------------")
+print("Total Votes :" + str(count))    
+print("-------------------------")
+for i in range(len(unique_candidate)):
+            print(unique_candidate[i] + ": " + str(vote_percent[i]) +"% (" + str(vote_count[i])+ ")")
+print("-------------------------")
+print("The winner is: " + winner)
+print("-------------------------")
 
-# Calculate total votes
-total_votes = df['Ballot ID'].count()
-
-# Get unique candidates
-candidates = df['Candidate'].unique()
-
-# Calculate the number of votes per candidate
-number_of_votes_per_candidate = df.groupby('Candidate').agg({'Ballot ID' : 'count'})
-
-# Calculate the percentage of votes per candidate
-percentage_per_candidate = (number_of_votes_per_candidate['Ballot ID'] / total_votes) * 100
-
-# Sort the percentages in descending order
-percentage_per_candidate = percentage_per_candidate.sort_values(ascending=False)
-
-# Get the winner
-winner = percentage_per_candidate.index[0]
-
-# Create a new DataFrame with the results
-results_df = pd.DataFrame({
-    'Candidate': percentage_per_candidate.index,
-    'Percentage of Votes': percentage_per_candidate.values,
-    'Total Votes': number_of_votes_per_candidate['Ballot ID'].values
-})
-
-# Add a column with the formatted percentage of votes
-results_df['Percentage of Votes'] = results_df['Percentage of Votes'].map('{:.3f}%'.format)
-
-# Create the election results as a string
-results_str = f'''
-Election Results
--------------------------
-Total Votes: {total_votes}
--------------------------
-'''
-
-for index, row in results_df.iterrows():
-    results_str += f"{row['Candidate']}: {row['Percentage of Votes']} ({row['Total Votes']})\n"
-
-results_str += f'''
--------------------------
-Winner: {winner}
--------------------------
-'''
-
-# Write the results to a CSV file
-with open('./PyPoll/analysis/election_results.csv', 'w') as f:
-    f.write(results_str)
+# Print to a text file: election_results.txt
+with open('election_results.txt', 'w') as text:
+    text.write("Election Results\n")
+    text.write("---------------------------------------\n")
+    text.write("Total Vote: " + str(count) + "\n")
+    text.write("---------------------------------------\n")
+    for i in range(len(set(unique_candidate))):
+        text.write(unique_candidate[i] + ": " + str(vote_percent[i]) +"% (" + str(vote_count[i]) + ")\n")
+    text.write("---------------------------------------\n")
+    text.write("The winner is: " + winner + "\n")
+    text.write("---------------------------------------\n")
