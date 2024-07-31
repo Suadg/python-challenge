@@ -1,64 +1,61 @@
 import os
 import csv
 
-# Print the current working directory
-print("Current Working Directory:", os.getcwd())
-
-# Specify the path to the CSV file election_data.csv
-csv_path = os.path.join('Resources', 'election_data.csv')
+# Read the data from the file
+csv_path = os.path.join('Resources', 'election_data.csv')  # Update with your file path
 
 # Initialize variables
 total_votes = 0
-candidates_votes = {}
+candidates = {}
+winner_name = ""
+winner_votes = 0
 
-# Open and read the data from the CSV file
-with open(csv_path) as data:
-    reader = csv.reader(data, delimiter=",")
-    header = next(reader)  # Skip the header row
+# Open the CSV file and perform calculations
+with open(csv_path) as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=",")
+    csv_header = next(csvreader)  # Skip the header row
+    for row in csvreader:
+        # Count total votes
+        total_votes = total_votes + 1
 
-    # Loop over the rows to make calculations
-    for row in reader:
-        candidate_name = row[2]  # Get the candidate name from the current row
+        # Get candidate name from row
+        candidate_name = row[2]
 
-        # Check if candidate name is in the dictionary. If not, add it with an initial count of zero
-        if candidate_name not in candidates_votes:
-            candidates_votes[candidate_name] = 0
+        # Increment votes for candidate or add candidate if not present
+        if candidate_name not in candidates:
+            candidates[candidate_name] = 1
+        else:
+            candidates[candidate_name] = candidates[candidate_name] + 1
 
-        # Add votes to each candidate in increments of 1
-        candidates_votes[candidate_name] += 1
+        # Update winner information
+        if candidates[candidate_name] > winner_votes:
+            winner_name = candidate_name
+            winner_votes = candidates[candidate_name]
 
-        # Calculate the total votes in increments of 1
-        total_votes += 1
+# Calculate total votes and votes for each candidate
+for candidate, votes in candidates.items():
+    percentage = (votes / total_votes) * 100
+    candidates[candidate] = {"votes": votes, "percentage": percentage}
 
-# Print the outcomes in the console
+# Print results to the terminal
 print("Election Results")
 print("-------------------------")
 print(f"Total Votes: {total_votes}")
 print("-------------------------")
-
-# Loop to find out how many votes & percentage per candidate and print to console
-for candidate_name, votes in candidates_votes.items():
-    percent = (votes / total_votes) * 100
-    print(f"{candidate_name}: {percent:.3f}% ({votes})")
-
-# Finding out who won
-winner = max(candidates_votes, key=candidates_votes.get)
+for candidate, stats in candidates.items():
+    print(f"{candidate}: {stats['percentage']:.3f}% ({stats['votes']})")
 print("-------------------------")
-print(f"Winner: {winner}")
+print(f"Winner: {winner_name}")
 print("-------------------------")
 
-# Specify the output file path
-output_path = os.path.join("analysis", "PyPoll_analysis.txt")
-
-# Open the file in write mode and redirect the print statements to the file
-with open(output_path, "w") as textfile:
-    textfile.write("Election Results\n")
-    textfile.write("-------------------------\n")
-    textfile.write(f"Total Votes: {total_votes}\n")
-    textfile.write("-------------------------\n")
-    for candidate_name, votes in candidates_votes.items():
-        percent = (votes / total_votes) * 100
-        textfile.write(f"{candidate_name}: {percent:.3f}% ({votes})\n")
-    textfile.write("-------------------------\n")
-    textfile.write(f"Winner: {winner}\n")
-    textfile.write("-------------------------\n")
+# Export results to the PyPoll_results.txt
+with open("analysis/PyPoll_results.txt", "w") as file:
+    file.write("Election Results\n")
+    file.write("-------------------------\n") 
+    file.write(f"Total Votes: {total_votes}\n")
+    file.write("-------------------------\n")
+    for candidate, stats in candidates.items():
+        file.write(f"{candidate}: {stats['percentage']:.3f}% ({stats['votes']})\n")
+    file.write("-------------------------\n")
+    file.write(f"Winner: {winner_name}\n")
+    file.write("-------------------------\n")
