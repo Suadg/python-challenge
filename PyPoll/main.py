@@ -3,7 +3,7 @@ import os
 import csv
 
 # Specify the path to the CSV file election_data.csv
-electionData_csv = os.path.join("Resources", "election_data.csv")
+election_data_csv = os.path.join("Resources", "election_data.csv")
 
 # Variables to store total votes
 totalVotes = 0
@@ -12,7 +12,7 @@ totalVotes = 0
 candidates_votes = {}
 
 # Open and read the data of the CSV file.
-with open(electionData_csv) as data:
+with open(election_data_csv) as data:
 
 # Initiate the reader
     reader = csv.reader(data, delimiter=",")
